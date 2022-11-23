@@ -15,22 +15,10 @@
 		const syntaxisVue = Vue.createApp({
 			data(){
 				return{
-					counter: 0,
-					sumador: '+',
-					restador: '-'
+				
 				};
 			},
-			methods: {
-				sumar(){
-					this.counter++;
-				},
-				restar(){
-					this.counter--;
-				}
-			},
-			template: `<button v-text='sumador' v-on:click='sumar()'></button>
-			<p v-text='counter'></p>
-			<button v-text='restador' v-on:click='restar()' ></button>`
+			template: ``
 		}).mount('#app');
 
 	</script>
