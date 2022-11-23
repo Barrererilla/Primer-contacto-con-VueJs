@@ -15,11 +15,11 @@
 		const syntaxisVue = Vue.createApp({
 			data(){
 				return{
-					text: '<h1>Hola Vue.js </h1>',
-					text2: ' Cómo estás??'
+					attribute: 'src',
+					imagePcGamer: 'https://controltechinc.co/wp-content/uploads/2021/11/PC-COMPUMAX-GTX-1050TI-M22.png'
 				};
 			},
-			template: `<div v-once v-html='text + text2'></div>`
+			template: `<img v-bind:[attribute]='imagePcGamer' v-bind:alt='imagePcGamer' width='300' height='300' />`
 		}).mount('#app');
 
 	</script>
