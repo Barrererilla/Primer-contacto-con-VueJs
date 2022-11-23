@@ -9,18 +9,17 @@
 <body>
 	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 	
-	<div>
-		<h1 id="app">{{ text + text2 }}</h1>
-	</div>
+	<div id="app"><div>
 
 	<script>
 		const syntaxisVue = Vue.createApp({
 			data(){
 				return{
-					text: 'Hola Vue.js',
+					text: '<h1>Hola Vue.js </h1>',
 					text2: ' Cómo estás??'
 				};
-			}
+			},
+			template: `<div v-once v-html='text + text2'></div>`
 		}).mount('#app');
 
 	</script>
