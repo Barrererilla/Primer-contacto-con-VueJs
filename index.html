@@ -15,10 +15,15 @@
 		const syntaxisVue = Vue.createApp({
 			data(){
 				return{
-				
+					text: 'Hola vue ',
 				};
 			},
-			template: ``
+			template: `<p v-text='text'></p>
+			<input 
+			type='text'
+			v-model='text'
+			/>
+			`
 		}).mount('#app');
 
 	</script>
