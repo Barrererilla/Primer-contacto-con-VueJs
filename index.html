@@ -15,14 +15,21 @@
 		const syntaxisVue = Vue.createApp({
 			data(){
 				return{
-					text: 'Hola vue ',
+					firstName: 'Yave Felipe ',
+					lastName: 'Barrera Pico',
+					now: new Date()
 				};
 			},
-			template: `<p v-text='text'></p>
-			<input 
-			type='text'
-			v-model='text'
-			/>
+			computed:{
+				fullName(){
+					return this.firstName + this.lastName;
+				},
+				date(){
+					return this.now.toLocaleDateString();
+				}
+			},
+			template: `<p v-text='fullName' ></p>
+			<p v-text='date' ></p>
 			`
 		}).mount('#app');
 
