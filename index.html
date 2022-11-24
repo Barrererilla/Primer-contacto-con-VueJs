@@ -15,21 +15,28 @@
 		const syntaxisVue = Vue.createApp({
 			data(){
 				return{
-					firstName: 'Yave Felipe ',
-					lastName: 'Barrera Pico',
-					now: new Date()
+					text: 'Puerta cerrada',
+					open: false
 				};
 			},
-			computed:{
-				fullName(){
-					return this.firstName + this.lastName;
-				},
-				date(){
-					return this.now.toLocaleDateString();
+			watch:{
+				open(value){
+					value ? this.text = 'Puerta abierta' : this.text = 'Puerta cerrada';
 				}
 			},
-			template: `<p v-text='fullName' ></p>
-			<p v-text='date' ></p>
+			computed:{
+				puertaBoton(){
+					return this.open ? 'Cerrar' : 'Abrir'
+				}
+			},
+			methods:{
+				abrirPuerta(){
+					this.open = !this.open;
+				}
+			},
+			template: `
+				<p>{{ text }}</p>
+				<button @click='abrirPuerta'>{{ puertaBoton }}</button>
 			`
 		}).mount('#app');
 
