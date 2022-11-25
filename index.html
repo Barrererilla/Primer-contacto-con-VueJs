@@ -16,41 +16,52 @@
 		const syntaxisVue = Vue.createApp({
 			data(){
 				return{
-					puerta : 'La puerta está abierta',
-					open : true,
-					image: 'https://i.ytimg.com/vi/8tUYTVthzNY/maxresdefault.jpg',
-					attribute: 'src'
+					puerta: 'Acceder a mi cuenta',
+					toAccess: true,
+					username: '',
 				};
 			},
 			watch:{
-				open(value){
+				toAccess(value){
 					if(value){
-						this.puerta = 'La puerta está abierta';
+						this.puerta = 'Acceder a mi cuenta';
+						this.username = '';
 					}else{
-						this.puerta = 'La puerta está cerrada';
+						this.puerta = 'Salir de tú cuenta';
 					}
-				}			},
+				}
+			},
 			methods:{
 				booleano(){
-					this.open = !this.open;
+					this.toAccess = !this.toAccess;
 				}
 			},
 			computed:{
-				puertaBoton(){
-					return this.open ? 'Cerrar' : 'Abrir';
+				closeAndOpen(){
+					return this.toAccess ? 'open' : 'close'
+				},
+				alineado(){
+					return 'nombre-usuario'
 				},
 				images(){
-					return this.open ? this.image = 'https://i.ytimg.com/vi/8tUYTVthzNY/maxresdefault.jpg' : this.image = 'https://depor.com/resizer/pfVziOV4X8Vu9nwknDc-oNItlB8=/1200x900/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/6Y2EDIISGFGVFANEVDCR5LCG34.jpg'
-				},
-				colors(){
-					return this.open ? 'open' : 'close';
+					return this.toAccess ? 'https://cdn2.unrealengine.com/18br-headband-cosmetics-naruto-toast-400x400-5228564ee685.jpg' : 'https://i.pinimg.com/originals/77/a8/c0/77a8c06b4c278d029b45bc73cb6666af.jpg'
 				}
 			},
 			template: `
-			<div class='container' :class='colors' >
+			<div class='container' :class='closeAndOpen' >
 				<h2>{{ puerta }}</h2>
-				<button @click='booleano' >{{ puertaBoton }}</button>
-				<img :[attribute]='images' width='300' height='200' />
+				<img :src='images'  width='300' height='300' />
+				<div v-if='toAccess' :class='alineado' >
+					<p>Enter your name:</p>
+					<input type='password' v-model='username' />
+				</div>
+				<div v-else>
+					<p>Your username is: {{ username }}  </p>
+				</div>
+				<button @click='booleano' >
+					<div v-if='toAccess' >Acceder</div>
+					<div v-else >Salir</div>
+				</button>
 			</div>
 			`
 		}).mount('#app');
