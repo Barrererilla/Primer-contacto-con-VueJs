@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./styles.css">
 	<title>Document</title>
 </head>
 <body>
@@ -15,32 +16,45 @@
 		const syntaxisVue = Vue.createApp({
 			data(){
 				return{
-					text: 'Puerta cerrada',
-					open: false
+					puerta : 'La puerta está abierta',
+					open : true,
+					image: 'https://i.ytimg.com/vi/8tUYTVthzNY/maxresdefault.jpg',
+					attribute: 'src'
 				};
 			},
 			watch:{
 				open(value){
-					value ? this.text = 'Puerta abierta' : this.text = 'Puerta cerrada';
+					if(value){
+						this.puerta = 'La puerta está abierta';
+					}else{
+						this.puerta = 'La puerta está cerrada';
+					}
+				}			},
+			methods:{
+				booleano(){
+					this.open = !this.open;
 				}
 			},
 			computed:{
 				puertaBoton(){
-					return this.open ? 'Cerrar' : 'Abrir'
-				}
-			},
-			methods:{
-				abrirPuerta(){
-					this.open = !this.open;
+					return this.open ? 'Cerrar' : 'Abrir';
+				},
+				images(){
+					return this.open ? this.image = 'https://i.ytimg.com/vi/8tUYTVthzNY/maxresdefault.jpg' : this.image = 'https://depor.com/resizer/pfVziOV4X8Vu9nwknDc-oNItlB8=/1200x900/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/6Y2EDIISGFGVFANEVDCR5LCG34.jpg'
+				},
+				colors(){
+					return this.open ? 'open' : 'close';
 				}
 			},
 			template: `
-				<p>{{ text }}</p>
-				<button @click='abrirPuerta'>{{ puertaBoton }}</button>
+			<div class='container' :class='colors' >
+				<h2>{{ puerta }}</h2>
+				<button @click='booleano' >{{ puertaBoton }}</button>
+				<img :[attribute]='images' width='300' height='200' />
+			</div>
 			`
 		}).mount('#app');
 
 	</script>
-
 </body>
 </html>
