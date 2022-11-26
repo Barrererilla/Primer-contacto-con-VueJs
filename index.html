@@ -13,54 +13,106 @@
 	<div id="app"><div>
 
 	<script>
-		const syntaxisVue = Vue.createApp({
+		const vm = Vue.createApp({
 			data(){
 				return{
-					puerta: 'Acceder a mi cuenta',
-					toAccess: true,
+					text: 'Access my account',
+					open: true,
 					username: '',
-				};
+						post: [{
+							title: 'Perros',
+							description: 'Ladran y muerden'
+						},
+						{
+							title: 'Gatos',
+							description: 'Mauyan y comen mucho'
+						},
+						{
+							title: 'Loros',
+							description: 'Hacen mucho ruido y huelan'
+						},
+						
+					],
+					addPostDown: {
+						title: '',
+						description: '',
+					},
+					arrayPost: [],
+				}
 			},
 			watch:{
-				toAccess(value){
+				open(value){
 					if(value){
-						this.puerta = 'Acceder a mi cuenta';
+						this.text = 'Access my account';
 						this.username = '';
 					}else{
-						this.puerta = 'Salir de tú cuenta';
+						this.text = 'log out of my account'
 					}
+				}
+			},	
+			computed:{
+				cambiar(){
+					return this.open ? 'Cerrar' : 'Abrir';
+				},
+				color(){
+					return this.open ? 'open' : 'close';
 				}
 			},
 			methods:{
 				booleano(){
-					this.toAccess = !this.toAccess;
-				}
-			},
-			computed:{
-				closeAndOpen(){
-					return this.toAccess ? 'open' : 'close'
+					this.open = !this.open;
 				},
-				alineado(){
-					return 'nombre-usuario'
+				addPost(){
+					const array = this.arrayPost;
+					if(this.addPostDown.title != '' && this.addPostDown.title != ''){
+						array['title'] = this.addPostDown.title;
+						array['description'] = this.addPostDown.description;
+						this.post.push(array);
+					}
 				},
-				images(){
-					return this.toAccess ? 'https://cdn2.unrealengine.com/18br-headband-cosmetics-naruto-toast-400x400-5228564ee685.jpg' : 'https://i.pinimg.com/originals/77/a8/c0/77a8c06b4c278d029b45bc73cb6666af.jpg'
+				deletePost(i){
+					this.post.splice(i, 1);
 				}
 			},
 			template: `
-			<div class='container' :class='closeAndOpen' >
-				<h2>{{ puerta }}</h2>
-				<img :src='images'  width='300' height='300' />
-				<div v-if='toAccess' :class='alineado' >
-					<p>Enter your name:</p>
-					<input type='password' v-model='username' />
+			<div class='container' :class='color' >
+				<p>{{ text }}</p>
+
+				<div v-if='open' class='decoration-div' >
+					Enter your username: <input type='text' v-model='username' />
 				</div>
-				<div v-else>
-					<p>Your username is: {{ username }}  </p>
+
+
+				
+				<div v-else class='decoration-div'>
+					Your username is: <strong>{{ username }}</strong> <br />
+					<div class='margin-div' >You can add elements and also you can delete them</div>
+
+					<div class='add-title'>
+						<div class='add-post'>
+							Add title:
+							<input type='text' v-model='this.addPostDown.title' />
+						</div>
+						<div class='add-post'>
+							Add description:
+							<input type='text' v-model='this.addPostDown.description' />
+						</div>
+					</div>
+
+						<button @click='addPost' >Add post</button>
+
+					<div v-for='item in post' :key='item.id' >
+						<div class='margin-div' >
+							<strong> {{ item.title }} </strong>
+							<button @click='deletePost' >X</button>
+						</div>
+						<label>{{ item.description }}</label>
+					</div>
 				</div>
+
 				<button @click='booleano' >
-					<div v-if='toAccess' >Acceder</div>
-					<div v-else >Salir</div>
+					<div v-if='open'>to access</div>
+					<div v-else>to close </div>
 				</button>
 			</div>
 			`

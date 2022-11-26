@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		const syntaxisVue = Vue.createApp({
+			data(){
+				return{
+					puerta: 'Acceder a mi cuenta',
+					toAccess: true,
+					username: '',
+					post: [{
+							title: 'Your post',
+							text: 'Tu post ha sido el mejor de todos'
+						},
+						{
+							title: 'Your post 1',
+							text: 'Tu post ha sido el mejor de todos'
+						},
+						{
+							title: 'Your post 2',
+							text: 'Tu post ha sido el mejor de todos'
+						},{
+							title: 'Your post 3',
+							text: 'Tu post ha sido el mejor de todos'
+						}
+					],
+					newPost: {
+						title: '',
+						text: ''
+					},
+					agregarPublicacion: []
+				};
+			},
+			watch:{
+				toAccess(value){
+					if(value){
+						this.puerta = 'Acceder a mi cuenta';
+						this.username = '';
+					}else{
+						this.puerta = 'Salir de tú cuenta';
+					}
+				}
+			},
+			methods:{
+				booleano(){
+					this.toAccess = !this.toAccess;
+				},
+				addPost(){
+					const setPost = this.agregarPublicacion;
+					if(this.newPost.title != '' && this.newPost.text != ''){
+						setPost['title'] = this.newPost.title;
+						setPost['text'] = this.newPost.text;
+						this.post.push(setPost);
+					}
+				},
+				removePost(i){
+					console.log(i);
+					this.post.splice(i, 1);
+				}
+			},
+			computed:{
+				closeAndOpen(){
+					return this.toAccess ? 'open' : 'close'
+				},
+				alineado(){
+					return 'nombre-usuario'
+				},
+				images(){
+					return this.toAccess ? 'https://cdn2.unrealengine.com/18br-headband-cosmetics-naruto-toast-400x400-5228564ee685.jpg' : 'https://i.pinimg.com/originals/77/a8/c0/77a8c06b4c278d029b45bc73cb6666af.jpg'
+				}
+			},
+			template: `
+			<div class='container' :class='closeAndOpen' >
+				<h2>{{ puerta }}</h2>
+				<img :src='images'  width='300' height='300' />
+				<div v-if='toAccess' :class='alineado' >
+					<div>Username</div>
+					<input type='text' v-model='username' />
+				</div>
+				<div v-else>
+					hola <strong> {{ username }} </strong>
+
+					<label> You can add a post and also you can delete them</label>
+					<div class='inputs' >
+						add a title:
+						<input type='text' v-model='newPost.title' />
+						add a description:
+						<input type='text' v-model='newPost.text' />
+						<button @click='addPost' >Add</button>
+					</div>
+
+					<div class='top'>
+						<div v-for='(item, index) in post' :key='index' >
+							<div>
+								<strong> {{ item.title }} <strong>
+								<button @click='removePost' >x</button>		
+							</div>
+							<p class='sin-margin' >{{ item.text }}</p>
+						</div>
+					</div>
+				</div>
+				<button @click='booleano' >
+					<div v-if='toAccess' >Acceder</div>
+					<div v-else >Salir</div>
+				</button>
+			</div>
+			`
+		}).mount('#app');
+	</script>
+</body>
+</html>
