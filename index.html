@@ -19,42 +19,44 @@
 						animales: [
 							{
 								tipo: 'Arboles de pajaros',
-								description: {
-									nombre: 'Pericos',
-									number: 2
-								},
 							},
 							{
-								tipo: 'Selva de oso',
-								description: {
-									nombre: 'Oso polar',
-									number: 5
-								},
-							},{},{}
+								tipo: 'Selva de oso'
+							},
+							{
+								tipo: 'Veterinaria de perros'
+							}
 						]
 					}
 				},
+				methods:{
+					remove(index, id){
+						// this.animales = this.animales.filter((el, i) => i !== index);
+						console.log('id: ', id);
+					}
+				},	
 				template: `
 				<ul>
-					<v-item v-for='item in animales' :type='item.tipo' 
-					:descripcion='item.description' ></v-item>
+					<v-item 
+					v-for='(item, index) in animales' 
+					:tipo='item.tipo' 
+					@remove='remove(index, $event)'
+					/>
 				</ul>
 				`
 			});
 
 			app.component('v-item', {
 				props: {
-					type:{
-						type: String,
-						default: 'Default vacio'
-					},
-					descripcion:{
-						type: Object,
-						default: 'Description vacia'
+					tipo: String					
+				},
+				methods:{
+					rm(){
+						this.$emit('remove', 200);
 					}
 				},
 				template: `
-					<li>{{type}} <strong>nombre del animal: </strong> {{descripcion.nombre}} <strong>cantidad: </strong> {{descripcion.number}} </li>
+					<li @click='rm'>{{tipo}} </li>
 				`
 			});
 
