@@ -13,110 +13,34 @@
 	<div id="app"><div>
 
 	<script>
-		const vm = Vue.createApp({
-			data(){
-				return{
-					text: 'Access my account',
-					open: true,
-					username: '',
-						post: [{
-							title: 'Perros',
-							description: 'Ladran y muerden'
-						},
-						{
-							title: 'Gatos',
-							description: 'Mauyan y comen mucho'
-						},
-						{
-							title: 'Loros',
-							description: 'Hacen mucho ruido y huelan'
-						},
-						
-					],
-					addPostDown: {
-						title: '',
-						description: '',
-					},
-					arrayPost: [],
-				}
-			},
-			watch:{
-				open(value){
-					if(value){
-						this.text = 'Access my account';
-						this.username = '';
-					}else{
-						this.text = 'log out of my account'
-					}
-				}
-			},	
-			computed:{
-				cambiar(){
-					return this.open ? 'Cerrar' : 'Abrir';
-				},
-				color(){
-					return this.open ? 'open' : 'close';
-				}
-			},
-			methods:{
-				booleano(){
-					this.open = !this.open;
-				},
-				addPost(){
-					const array = this.arrayPost;
-					if(this.addPostDown.title != '' && this.addPostDown.title != ''){
-						array['title'] = this.addPostDown.title;
-						array['description'] = this.addPostDown.description;
-						this.post.push(array);
-					}
-				},
-				deletePost(i){
-					this.post.splice(i, 1);
-				}
-			},
+		
+		const app = Vue.createApp({
 			template: `
-			<div class='container' :class='color' >
-				<p>{{ text }}</p>
-
-				<div v-if='open' class='decoration-div' >
-					Enter your username: <input type='text' v-model='username' />
-				</div>
-
-
-				
-				<div v-else class='decoration-div'>
-					Your username is: <strong>{{ username }}</strong> <br />
-					<div class='margin-div' >You can add elements and also you can delete them</div>
-
-					<div class='add-title'>
-						<div class='add-post'>
-							Add title:
-							<input type='text' v-model='this.addPostDown.title' />
-						</div>
-						<div class='add-post'>
-							Add description:
-							<input type='text' v-model='this.addPostDown.description' />
-						</div>
-					</div>
-
-						<button @click='addPost' >Add post</button>
-
-					<div v-for='item in post' :key='item.id' >
-						<div class='margin-div' >
-							<strong> {{ item.title }} </strong>
-							<button @click='deletePost' >X</button>
-						</div>
-						<label>{{ item.description }}</label>
-					</div>
-				</div>
-
-				<button @click='booleano' >
-					<div v-if='open'>to access</div>
-					<div v-else>to close </div>
-				</button>
+			<div>
+				<v-layout>
+					<template v-slot:header>
+						Titutlo
+					</template>
+					<template v-slot:div>
+						Contenido de mi proyecto
+					</template>
+				</v-layout>
 			</div>
 			`
-		}).mount('#app');
+		});
+
+		app.component('v-layout', {
+			template: `
+				<header>
+					<slot name='header'></slot>
+				</header>
+				<div>
+					<slot name='div'></slot>
+				</div>
+			`
+		});
+
+		const vm = app.mount('#app');
 
 	</script>
 </body>
