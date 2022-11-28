@@ -16,47 +16,28 @@
 			const app = Vue.createApp({
 				data(){
 					return{
-						animales: [
-							{
-								tipo: 'Arboles de pajaros',
-							},
-							{
-								tipo: 'Selva de oso'
-							},
-							{
-								tipo: 'Veterinaria de perros'
-							}
-						]
-					}
+						saludo: 'Hola Vue '						
+					};
 				},
-				methods:{
-					remove(index, id){
-						// this.animales = this.animales.filter((el, i) => i !== index);
-						console.log('id: ', id);
-					}
-				},	
 				template: `
-				<ul>
-					<v-item 
-					v-for='(item, index) in animales' 
-					:tipo='item.tipo' 
-					@remove='remove(index, $event)'
+					<h5>{{ saludo }}</h5>
+					<v-input 
+					v-model:valor='saludo'
 					/>
-				</ul>
 				`
 			});
 
-			app.component('v-item', {
-				props: {
-					tipo: String					
+			app.component('v-input', {
+				props:{
+					valor: String
 				},
-				methods:{
-					rm(){
-						this.$emit('remove', 200);
+				methods: {
+					seeinput(e){
+						this.$emit('update:valor', e.target.value);
 					}
 				},
 				template: `
-					<li @click='rm'>{{tipo}} </li>
+				<input type='text' :value='valor' @input="seeinput" />
 				`
 			});
 
