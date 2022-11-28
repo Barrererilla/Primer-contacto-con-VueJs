@@ -12,36 +12,55 @@
 	
 	<div id="app"><div>
 
-	<script>
-		
-		const app = Vue.createApp({
-			template: `
-			<div>
-				<v-layout>
-					<template v-slot:header>
-						Titutlo
-					</template>
-					<template v-slot:div>
-						Contenido de mi proyecto
-					</template>
-				</v-layout>
-			</div>
-			`
-		});
+		<script>
+			const app = Vue.createApp({
+				data(){
+					return{
+						animales: [
+							{
+								tipo: 'Arboles de pajaros',
+								description: {
+									nombre: 'Pericos',
+									number: 2
+								},
+							},
+							{
+								tipo: 'Selva de oso',
+								description: {
+									nombre: 'Oso polar',
+									number: 5
+								},
+							},{},{}
+						]
+					}
+				},
+				template: `
+				<ul>
+					<v-item v-for='item in animales' :type='item.tipo' 
+					:descripcion='item.description' ></v-item>
+				</ul>
+				`
+			});
 
-		app.component('v-layout', {
-			template: `
-				<header>
-					<slot name='header'></slot>
-				</header>
-				<div>
-					<slot name='div'></slot>
-				</div>
-			`
-		});
+			app.component('v-item', {
+				props: {
+					type:{
+						type: String,
+						default: 'Default vacio'
+					},
+					descripcion:{
+						type: Object,
+						default: 'Description vacia'
+					}
+				},
+				template: `
+					<li>{{type}} <strong>nombre del animal: </strong> {{descripcion.nombre}} <strong>cantidad: </strong> {{descripcion.number}} </li>
+				`
+			});
 
-		const vm = app.mount('#app');
+			const vm = app.mount('#app');
+		</script>
+	
 
-	</script>
 </body>
 </html>
