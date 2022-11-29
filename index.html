@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="./styles.css">
 	<title>Document</title>
 </head>
 <body>
@@ -17,38 +16,25 @@
 			const app = Vue.createApp({
 				data(){
 					return{
-						saludo: 'Hello world'
-					}
-				},
-				provide() {
-					return{
-						otroTexto: this.saludo,
+						saludo: 'Hola vue',
 					}
 				},
 				template: `
-					<div>{{ saludo }}</div>
-					<v-child />
+					<v-button :texto='saludo' /> 
 				`
 			});
 
-			app.component('v-child', {
-				template: `
-					<v-grandchild />
-				`
-			});
-
-			app.component('v-grandchild', {
-				inject: {
-					otroTexto:{
-						from: 'otroTexto',
-					}
+			app.component('v-button',{
+				props: {
+					texto: String
 				},
 				template: `
-					<label>{{ otroTexto }}</label>
+					<button>{{ texto }}</button>
 				`
 			});
 
 			const vm = app.mount('#app');
+			console.log(vm.$children);
 
 		</script>
 	
