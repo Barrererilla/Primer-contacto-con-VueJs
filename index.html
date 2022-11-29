@@ -13,35 +13,43 @@
 	<div id="app"><div>
 
 		<script>
+			
 			const app = Vue.createApp({
 				data(){
 					return{
-						saludo: 'Hola Vue '						
-					};
+						saludo: 'Hello world'
+					}
 				},
-				template: `
-					<h5>{{ saludo }}</h5>
-					<v-input 
-					v-model:valor='saludo'
-					/>
-				`
-			});
-
-			app.component('v-input', {
-				props:{
-					valor: String
-				},
-				methods: {
-					seeinput(e){
-						this.$emit('update:valor', e.target.value);
+				provide() {
+					return{
+						otroTexto: this.saludo,
 					}
 				},
 				template: `
-				<input type='text' :value='valor' @input="seeinput" />
+					<div>{{ saludo }}</div>
+					<v-child />
+				`
+			});
+
+			app.component('v-child', {
+				template: `
+					<v-grandchild />
+				`
+			});
+
+			app.component('v-grandchild', {
+				inject: {
+					otroTexto:{
+						from: 'otroTexto',
+					}
+				},
+				template: `
+					<label>{{ otroTexto }}</label>
 				`
 			});
 
 			const vm = app.mount('#app');
+
 		</script>
 	
 
